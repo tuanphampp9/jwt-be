@@ -1,0 +1,39 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update user</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="topnav">
+      <a href="/">Home</a>
+      <a href="/create">Create users</a>
+      <a href="/update" class="active">Update user</a>
+    </div>
+    <div class="form">
+      <form action="/update-user/<%= infoUser.id%>" method="post">
+        <fieldset>
+          <legend>Update user:</legend>
+          <div class="input-form">
+            <label>Email</label>
+            <input type="email" name="email" value="<%= infoUser.email%>" />
+          </div>
+          <div class="input-form">
+            <label>Display Name</label>
+            <input
+              type="text"
+              name="display_name"
+              value="<%= infoUser.display_name%>"
+            />
+          </div>
+          <div class="input-form">
+            <label>Gender</label>
+            <input type="text" name="gender" value="<%= infoUser.gender%>" />
+          </div>
+          <button>Confirm changed</button>
+        </fieldset>
+      </form>
+    </div>
+  </body>
+</html>

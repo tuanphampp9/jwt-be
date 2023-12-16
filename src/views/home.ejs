@@ -1,0 +1,57 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home page</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      tr:hover {
+        background-color: coral;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topnav">
+      <a class="active" href="/">Home</a>
+      <a href="/create">Create users</a>
+      <a href="/update">Update user</a>
+    </div>
+    <div class="contain-form">
+      <h4>List Users</h4>
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Email</th>
+          <th>Display Name</th>
+          <th>Gender</th>
+          <th>Action</th>
+        </tr>
+        <% listUsers.forEach((user)=> { %>
+        <tr>
+          <td><%= user.id%></td>
+          <td><%= user.email%></td>
+          <td><%= user.display_name%></td>
+          <td><%= user.gender%></td>
+          <td>
+            <a href="/update/<%= user.id%>">Edit</a>
+            <a href="/confirm-delete/<%= user.id%>">
+              <button>delete</button>
+            </a>
+          </td>
+        </tr>
+        <%})%>
+      </table>
+    </div>
+  </body>
+</html>

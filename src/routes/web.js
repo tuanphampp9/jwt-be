@@ -1,0 +1,13 @@
+const express = require('express')
+const router = express.Router()
+const { getHomePage, postCreateUser, getFormCreateUser, getFormUpdateUser, postUpdateUser, getFormDeleteUser, postDeleteUser } = require('../controllers/homeController')
+const { testApi } = require('../controllers/apiController')
+router.get('/', getHomePage)
+router.get('/create', getFormCreateUser)
+router.get('/confirm-delete/:userId', getFormDeleteUser)
+router.get('/update/:userId', getFormUpdateUser)
+router.post('/create-user', postCreateUser)
+router.post('/delete-user/:userId', postDeleteUser)
+router.get('/test-api', testApi)
+router.post('/update-user/:userId', postUpdateUser)
+module.exports = router //export default
