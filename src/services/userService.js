@@ -32,6 +32,7 @@ const getUserWidthPaginate = async (page, limit) => {
         const { count, rows } = await db.Users.findAndCountAll({
             include: { model: db.groups, attributes: ['id', 'name', 'description'] },
             attributes: ['id', 'display_name', 'phone', 'email', 'gender', 'address'],
+            order: [['id', 'DESC']],
             offset: offset,
             limit: limit,
             raw: true,

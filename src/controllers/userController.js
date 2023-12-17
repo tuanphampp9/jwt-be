@@ -40,10 +40,9 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-        const { display_name, password, gender, address, groupId } = req.body;
+        const { display_name, gender, address, groupId } = req.body;
         const userId = req.params.userId;
-        const hashPassword = bcrypt.hashSync(password, salt);
-        const dataService = await updateUserService({ display_name, password: hashPassword, gender, address, groupId: parseInt(groupId) }, userId)
+        const dataService = await updateUserService({ display_name, gender, address, groupId: parseInt(groupId) }, userId)
         return res.status(200).json(dataService)
     } catch (error) {
         return res.status(500).json({

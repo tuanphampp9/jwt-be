@@ -5,7 +5,8 @@ const configViewEngine = require('./config/viewEngine')
 const connection = require('./config/connectDB')
 const webRoutes = require('./routes/web')
 const apiRoutes = require('./routes/api')
-const configCors = require('./config/cors')
+const configCors = require('./config/cors');
+const { createJWT, verifyToken } = require('./middleware/JWTActions');
 const app = express()
 const port = process.env.PORT || 8080
 
@@ -20,6 +21,13 @@ app.use(express.urlencoded()); //Parse URL-encoded bodies
 connection();
 //config template engine
 configViewEngine(app);
+
+//test jwt
+createJWT();
+
+//test verify
+verifyToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidHVhbiBwaGFtIiwiYWRkcmVzcyI6ImhhIG5vaSIsImlhdCI6MTcwMjgyOTQwOX0.tPN5fkM3oDnEH5BrUAZ4rBqGxo4pOEUwFW5w5BjIW5g");
+
 //declare routes
 app.use('/api/v1/', apiRoutes)
 
