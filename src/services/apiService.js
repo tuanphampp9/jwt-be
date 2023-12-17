@@ -1,7 +1,10 @@
 const db = require('../models')
 const bcrypt = require('bcryptjs');
-const { Op } = require('sequelize')
+const { Op } = require('sequelize');
+const { getGroupWithRole } = require('./JWTService');
+const { createJWT } = require('../middleware/JWTActions');
 const salt = bcrypt.genSaltSync(10);
+require('dotenv').config
 const checkEmailExist = async (email) => {
     let user = await db.Users.findOne({ where: { email: email }, raw: true })
     if (user) return true
@@ -33,7 +36,7 @@ const handleRegisterService = async (rawDataUser) => {
             display_name: rawDataUser.display_name,
             password: hashPassword,
             phone: rawDataUser.phone,
-            groupId: 2
+            groupId: 4
         })
         return {
             EM: 'A user is the created successfully',
@@ -70,9 +73,19 @@ const handleUserLoginService = async (rawData) => {
         })
         if (userDB) {
             if (checkPassword(rawData.password, userDB.password)) {
+                const groupInfo = await getGroupWithRole(userDB.groupId);
+                const token = createJWT({
+                    email: userDB.email,
+                    groupInfo,
+                    expiresIn: process.env.JWT_EXPIRESIN
+                })
                 return {
                     EM: 'Logined Successfully',
-                    EC: 0
+                    EC: 0,
+                    DT: {
+                        access_token: token,
+                        groupInfo
+                    }
                 }
             }
             return {

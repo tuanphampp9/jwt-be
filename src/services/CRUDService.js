@@ -14,8 +14,6 @@ const getAllUsers = async () => {
             raw: true, include: { model: db.groups, where: { id: 2 }, },
             nest: true
         })
-        console.log('roles: ', role);
-        console.log('info: ', results);
         return results;
     } catch (error) {
         console.log(error);

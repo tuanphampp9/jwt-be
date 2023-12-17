@@ -1,10 +1,9 @@
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
 
-const createJWT = () => {
+const createJWT = (payload) => {
     try {
-        let token = jwt.sign({ name: 'tuan pham', address: 'ha noi' }, process.env.JWT_SECRET)
-        console.log(token);
+        let token = jwt.sign(payload, process.env.JWT_SECRET)
         return token;
     } catch (error) {
         console.log('error: ', error)
@@ -17,7 +16,6 @@ const verifyToken = (token) => {
             console.log('error: ', err)
             return null;
         }
-        console.log(decoded)
         return decoded
     });
 }

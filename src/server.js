@@ -22,12 +22,6 @@ connection();
 //config template engine
 configViewEngine(app);
 
-//test jwt
-createJWT();
-
-//test verify
-verifyToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidHVhbiBwaGFtIiwiYWRkcmVzcyI6ImhhIG5vaSIsImlhdCI6MTcwMjgyOTQwOX0.tPN5fkM3oDnEH5BrUAZ4rBqGxo4pOEUwFW5w5BjIW5g");
-
 //declare routes
 app.use('/api/v1/', apiRoutes)
 
