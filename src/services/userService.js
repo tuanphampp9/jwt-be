@@ -8,7 +8,6 @@ const getAllUsersService = async () => {
             attributes: ['id', 'display_name', 'phone', 'email', 'gender', 'address'],
             nest: true
         })
-        console.log('users: ', users);
         if (users) {
             return {
                 EM: '',
@@ -27,6 +26,31 @@ const getAllUsersService = async () => {
     }
 }
 
+const getUserWidthPaginate = async (page, limit) => {
+    try {
+        const offset = (page - 1) * limit;
+        const { count, rows } = await db.Users.findAndCountAll({
+            include: { model: db.groups, attributes: ['name', 'description'] },
+            attributes: ['id', 'display_name', 'phone', 'email', 'gender', 'address'],
+            offset: offset,
+            limit: limit,
+            raw: true,
+            nest: true
+        });
+
+        return {
+            EM: 'fetch list user successfully',
+            EC: 0,
+            DT: {
+                totalRows: count,
+                totalPages: Math.ceil(count / limit),
+                listUser: rows
+            }
+        }
+    } catch (error) {
+        console.log('err: ', error)
+    }
+}
 const createUserService = () => {
 
 }
@@ -43,5 +67,6 @@ module.exports = {
     getAllUsersService,
     createUserService,
     updateUserService,
-    deleteUserService
+    deleteUserService,
+    getUserWidthPaginate
 }
