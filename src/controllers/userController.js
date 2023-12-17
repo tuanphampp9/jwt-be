@@ -1,8 +1,9 @@
 
-const { getAllUsersService, getUserWidthPaginate } = require("../services/userService")
+const { getAllUsersService, getUserWidthPaginate, createUserService, updateUserService, deleteUserService } = require("../services/userService")
+const bcrypt = require('bcryptjs');
+const salt = bcrypt.genSaltSync(10);
 const getListUsers = async (req, res) => {
     try {
-        console.log('req: ', req.query);
         const { page, limit } = req.query;
         if (page && limit) {
             const dataService = await getUserWidthPaginate(parseInt(page), parseInt(limit));
@@ -21,16 +22,50 @@ const getListUsers = async (req, res) => {
     }
 }
 
-const createUser = () => {
+const createUser = async (req, res) => {
+    try {
+        const { email, display_name, password, phone, gender, address, groupId } = req.body;
+        const hashPassword = bcrypt.hashSync(password, salt);
+        const dataService = await createUserService({ email, display_name, password: hashPassword, phone, gender, address, groupId: parseInt(groupId) });
+        return res.status(200).json(dataService)
+    } catch (error) {
+        return res.status(500).json({
+            EM: `error from server, ${error}`,//error message
+            EC: -1,//error code
+            DT: ''
+        })
+    }
 
 }
 
-const updateUser = () => {
-
+const updateUser = async (req, res) => {
+    try {
+        const { display_name, password, gender, address, groupId } = req.body;
+        const userId = req.params.userId;
+        const hashPassword = bcrypt.hashSync(password, salt);
+        const dataService = await updateUserService({ display_name, password: hashPassword, gender, address, groupId: parseInt(groupId) }, userId)
+        return res.status(200).json(dataService)
+    } catch (error) {
+        return res.status(500).json({
+            EM: `error from server, ${error}`,//error message
+            EC: -1,//error code
+            DT: ''
+        })
+    }
 }
 
-const deleteUser = () => {
-
+const deleteUser = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const dataService = await deleteUserService(userId);
+        return res.status(200).json(dataService)
+    } catch (error) {
+        return res.status(500).json({
+            EM: `error from server, ${error}`,//error message
+            EC: -1,//error code
+            DT: ''
+        })
+    }
 }
 
 module.exports = {
