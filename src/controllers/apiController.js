@@ -36,7 +36,7 @@ const handleLogin = async (req, res) => {
     try {
         const infoUser = req.body;
         const data = await handleUserLoginService(infoUser);
-        res.cookie('jwt', data.DT.access_token, { httpOnly: true })
+        res.cookie('jwt', data.DT.access_token, { httpOnly: true, maxAge: 60 * 60 * 1000 })
         return res.status(200).json(data)
     } catch (error) {
         return res.status(500).json({
