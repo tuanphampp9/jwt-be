@@ -3,6 +3,8 @@ const router = express.Router()
 const { testApi, handleRegister, handleLogin } = require('../controllers/apiController')
 const { getListUsers, createUser, updateUser, deleteUser } = require('../controllers/userController')
 const { getListGroup } = require('../controllers/groupController')
+
+
 router.get('/test-api', testApi)
 router.post('/register', handleRegister)
 router.post('/login', handleLogin)

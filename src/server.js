@@ -6,7 +6,7 @@ const connection = require('./config/connectDB')
 const webRoutes = require('./routes/web')
 const apiRoutes = require('./routes/api')
 const configCors = require('./config/cors');
-const { createJWT, verifyToken } = require('./middleware/JWTActions');
+const cookieParser = require('cookie-parser')
 const app = express()
 const port = process.env.PORT || 8080
 
@@ -16,6 +16,9 @@ configCors(app);
 //config req.body
 app.use(express.json()); // Used to parse JSON bodies
 app.use(express.urlencoded()); //Parse URL-encoded bodies
+
+//config cookie parser
+app.use(cookieParser())
 
 //test connection
 connection();
