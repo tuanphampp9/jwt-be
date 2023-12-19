@@ -3,9 +3,9 @@ const router = express.Router()
 const { testApi, handleRegister, handleLogin } = require('../controllers/apiController')
 const { getListUsers, createUser, updateUser, deleteUser } = require('../controllers/userController')
 const { getListGroup } = require('../controllers/groupController')
+const { checkUserLogin, checkUserPermission } = require('../middleware/JWTActions')
 
-
-router.get('/test-api', testApi)
+router.all('*', checkUserLogin, checkUserPermission);
 router.post('/register', handleRegister)
 router.post('/login', handleLogin)
 router.get('/user/getListUser', getListUsers)

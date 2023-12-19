@@ -80,11 +80,13 @@ const handleUserLoginService = async (rawData) => {
                     expiresIn: process.env.JWT_EXPIRESIN
                 })
                 return {
-                    EM: 'Logined Successfully',
+                    EM: `Welcome ${userDB.display_name} to my app`,
                     EC: 0,
                     DT: {
                         access_token: token,
-                        groupInfo
+                        groupInfo,
+                        email: userDB.email,
+                        display_name: userDB.display_name
                     }
                 }
             }
