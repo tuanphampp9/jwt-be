@@ -76,8 +76,7 @@ const handleUserLoginService = async (rawData) => {
                 const groupInfo = await getGroupWithRole(userDB.groupId);
                 const token = createJWT({
                     email: userDB.email,
-                    groupInfo,
-                    expiresIn: process.env.JWT_EXPIRESIN
+                    groupInfo
                 })
                 return {
                     EM: `Welcome ${userDB.display_name} to my app`,

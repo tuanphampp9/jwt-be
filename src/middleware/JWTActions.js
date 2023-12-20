@@ -4,7 +4,7 @@ require('dotenv').config();
 const nonSecurePath = ['/login', '/register']
 const createJWT = (payload) => {
     try {
-        let token = jwt.sign(payload, process.env.JWT_SECRET)
+        let token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRESIN })
         return token;
     } catch (error) {
         console.log('error: ', error)
@@ -24,12 +24,13 @@ const verifyToken = (token) => {
 const checkUserLogin = (req, res, next) => {
     if (nonSecurePath.includes(req.path)) return next();
     const cookies = req.cookies;
-    if (cookies) {
-        console.log(cookies.jwt);
-        const token = cookies.jwt;
+    const tokenFromHeader = extractToken(req);
+    if (cookies || tokenFromHeader) {
+        const token = cookies?.jwt ? cookies?.jwt : tokenFromHeader;
         const decoded = verifyToken(token);
         if (decoded) {
             req.user = decoded;
+            req.token = token;
             return next();
         } else {
             return res.status(401).json({
@@ -46,7 +47,7 @@ const checkUserLogin = (req, res, next) => {
 }
 
 const checkUserPermission = (req, res, next) => {
-    if (nonSecurePath.includes(req.path)) return next();
+    if (nonSecurePath.includes(req.path) || req.path === '/account') return next();
     if (req.user) {
         const { roles } = req.user.groupInfo
         const currentPath = req.path;
@@ -67,6 +68,14 @@ const checkUserPermission = (req, res, next) => {
         })
     }
 }
+
+const extractToken = (req) => {
+    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+        return req.headers.authorization.split(' ')[1];
+    }
+    return null;
+}
+
 module.exports = {
     createJWT,
     verifyToken,

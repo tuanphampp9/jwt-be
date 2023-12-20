@@ -68,9 +68,29 @@ const deleteUser = async (req, res) => {
     }
 }
 
+const getInfoAccount = (req, res) => {
+    try {
+        console.log('req.user: ', req.user)
+        res.status(200).json({
+            EM: 'ok',
+            EC: 0,
+            DT: {
+                access_token: req.token,
+                infoUser: req.user
+            }
+        })
+    } catch (error) {
+        return res.status(500).json({
+            EM: `error from server, ${error}`,//error message
+            EC: -1,//error code
+            DT: ''
+        })
+    }
+}
 module.exports = {
     getListUsers,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getInfoAccount
 }
