@@ -24,7 +24,6 @@ const getListUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
-        console.log('req create: ', req.user);
         const { email, display_name, password, phone, gender, address, groupId } = req.body;
         const hashPassword = bcrypt.hashSync(password, salt);
         const dataService = await createUserService({ email, display_name, password: hashPassword, phone, gender, address, groupId: parseInt(groupId) });
@@ -70,7 +69,6 @@ const deleteUser = async (req, res) => {
 
 const getInfoAccount = (req, res) => {
     try {
-        console.log('req.user: ', req.user)
         res.status(200).json({
             EM: 'ok',
             EC: 0,

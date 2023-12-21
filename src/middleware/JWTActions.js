@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
 
-const nonSecurePath = ['/login', '/register']
+const nonSecurePath = ['/login', '/register', '/logout']
 const createJWT = (payload) => {
     try {
         let token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRESIN })

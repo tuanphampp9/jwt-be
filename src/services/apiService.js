@@ -76,6 +76,7 @@ const handleUserLoginService = async (rawData) => {
                 const groupInfo = await getGroupWithRole(userDB.groupId);
                 const token = createJWT({
                     email: userDB.email,
+                    display_name: userDB.display_name,
                     groupInfo
                 })
                 return {
